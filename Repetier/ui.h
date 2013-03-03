@@ -197,7 +197,7 @@
 #include "fastio.h"
 
 typedef struct {
-  const char *text; // Menu text 
+  const char *text; // Menu text
   unsigned char menuType; // 0 = Info, 1 = Headline, 2 = submenu ref, 3 = direct action command, 4 = modify action command
   unsigned int action;
 } const UIMenuEntry;
@@ -216,8 +216,8 @@ extern const int8_t encoder_table[16] PROGMEM ;
 
 //#ifdef COMPILE_I2C_DRIVER
 
-/************************************************************************* 
-* Title:    C include file for the I2C master interface 
+/*************************************************************************
+* Title:    C include file for the I2C master interface
 *           (i2cmaster.S or twimaster.c)
 * Author:   Peter Fleury <pfleury@gmx.ch>  http://jump.to/fleury
 * File:     $Id: i2cmaster.h,v 1.10 2005/03/06 22:39:57 Peter Exp $
@@ -237,24 +237,24 @@ extern const int8_t encoder_table[16] PROGMEM ;
 /** defines the data direction (writing to I2C device) in i2c_start(),i2c_rep_start() */
 #define I2C_WRITE   0
 
-/** 
- @brief Terminates the data transfer and releases the I2C bus 
+/**
+ @brief Terminates the data transfer and releases the I2C bus
  @param void
  @return none
  */
 extern void i2c_stop(void);
-/** 
- @brief Issues a start condition and sends address and transfer direction 
-  
+/**
+ @brief Issues a start condition and sends address and transfer direction
+
  @param    addr address and transfer direction of I2C device
- @retval   0   device accessible 
- @retval   1   failed to access device 
+ @retval   0   device accessible
+ @retval   1   failed to access device
  */
 extern unsigned char i2c_start(unsigned char addr);
 /**
- @brief Issues a start condition and sends address and transfer direction 
-   
- If device is busy, use ack polling to wait until device ready 
+ @brief Issues a start condition and sends address and transfer direction
+
+ If device is busy, use ack polling to wait until device ready
  @param    addr address and transfer direction of I2C device
  @return   none
  */
@@ -267,26 +267,26 @@ extern void i2c_start_wait(unsigned char addr);
  */
 extern unsigned char i2c_write(unsigned char data);
 /**
- @brief    read one byte from the I2C device, request more data from device 
+ @brief    read one byte from the I2C device, request more data from device
  @return   byte read from I2C device
  */
 extern unsigned char i2c_readAck(void);
 /**
- @brief    read one byte from the I2C device, read is followed by a stop condition 
+ @brief    read one byte from the I2C device, read is followed by a stop condition
  @return   byte read from I2C device
  */
 extern unsigned char i2c_readNak(void);
-/** 
+/**
  @brief    read one byte from the I2C device
- 
+
  Implemented as a macro, which calls either i2c_readAck or i2c_readNak
- 
+
  @param    ack 1 send ack, request more data from device<br>
-               0 send nak, read is followed by a stop condition 
+               0 send nak, read is followed by a stop condition
  @return   byte read from I2C device
  */
 extern unsigned char i2c_read(unsigned char ack);
-#define i2c_read(ack)  (ack) ? i2c_readAck() : i2c_readNak(); 
+#define i2c_read(ack)  (ack) ? i2c_readAck() : i2c_readNak();
 /**@}*/
 
 
@@ -381,7 +381,7 @@ extern unsigned char i2c_read(unsigned char ack);
 #define UI_MENU(name,items,itemsCnt) const UIMenuEntry * const name ## _entries[] PROGMEM = items;const UIMenu name PROGMEM = {2,0,itemsCnt,name ## _entries}
 #define UI_MENU_FILESELECT(name,items,itemsCnt) const UIMenuEntry *name ## _entries[] PROGMEM = items;const UIMenu name PROGMEM = {1,0,itemsCnt,name ## _entries}
 
-#if FEATURE_CONTROLLER==2 // reprapdiscount smartcontroller has a sd card buildin 
+#if FEATURE_CONTROLLER==2 // reprapdiscount smartcontroller has a sd card buildin
 #undef SDCARDDETECT
 #define SDCARDDETECT 49
 #undef SDCARDDETECTINVERTED
@@ -507,7 +507,7 @@ void ui_check_slow_keys(int &action) {}
 #define UI_DELAYPERCHAR 320
 #define UI_INVERT_MENU_DIRECTION false
 #ifdef UI_MAIN
-void ui_init_keys() {  
+void ui_init_keys() {
   UI_KEYS_INIT_CLICKENCODER_LOW(UI_ENCODER_A,UI_ENCODER_B); // click encoder on pins 47 and 45. Phase is connected with gnd for signals.
   UI_KEYS_INIT_BUTTON_LOW(UI_ENCODER_CLICK); // push button, connects gnd to pin
   UI_KEYS_INIT_BUTTON_LOW(UI_RESET_PIN); // Kill pin
@@ -515,7 +515,7 @@ void ui_init_keys() {
 void ui_check_keys(int &action) {
  UI_KEYS_CLICKENCODER_LOW_REV(UI_ENCODER_A,UI_ENCODER_B); // click encoder on pins 47 and 45. Phase is connected with gnd for signals.
  UI_KEYS_BUTTON_LOW(UI_ENCODER_CLICK,UI_ACTION_OK); // push button, connects gnd to pin
- UI_KEYS_BUTTON_LOW(UI_RESET_PIN,UI_ACTION_RESET); 
+ UI_KEYS_BUTTON_LOW(UI_RESET_PIN,UI_ACTION_RESET);
 }
 inline void ui_check_slow_encoder() {}
 void ui_check_slow_keys(int &action) {}
@@ -600,7 +600,7 @@ void ui_check_slow_keys(int &action) {
 #define UI_DELAYPERCHAR		   320
 #define UI_INVERT_MENU_DIRECTION false
 #ifdef UI_MAIN
-void ui_init_keys() {  
+void ui_init_keys() {
   UI_KEYS_INIT_BUTTON_LOW(4); // push button, connects gnd to pin
   UI_KEYS_INIT_BUTTON_LOW(5);
   UI_KEYS_INIT_BUTTON_LOW(6);
@@ -618,6 +618,51 @@ inline void ui_check_slow_encoder() {}
 void ui_check_slow_keys(int &action) {}
 #endif
 #endif // Controller 4
+
+
+/*-----mi edit----*/
+#if FEATURE_CONTROLLER==5 //Fabster3d
+#define UI_HAS_KEYS 1
+#define UI_HAS_BACK_KEY 0
+#define UI_DISPLAY_TYPE 1
+#define UI_DISPLAY_CHARSET 1
+#define BEEPER_TYPE 1
+#define UI_COLS 20
+#define UI_ROWS 4
+
+#define BEEPER_PIN             33
+
+#define UI_DISPLAY_RS_PIN      16
+#define UI_DISPLAY_RW_PIN      -1
+#define UI_DISPLAY_ENABLE_PIN  17
+#define UI_DISPLAY_D4_PIN      23
+#define UI_DISPLAY_D5_PIN      25
+#define UI_DISPLAY_D6_PIN      27
+#define UI_DISPLAY_D7_PIN      29
+
+#define UI_ENCODER_A           37
+#define UI_ENCODER_B           35
+#define UI_ENCODER_CLICK       31
+#define UI_RESET_PIN           41
+
+#define UI_DELAYPERCHAR 320
+#define UI_INVERT_MENU_DIRECTION false
+#ifdef UI_MAIN
+void ui_init_keys() {
+  UI_KEYS_INIT_CLICKENCODER_LOW(UI_ENCODER_A,UI_ENCODER_B); // click encoder on pins 47 and 45. Phase is connected with gnd for signals.
+  UI_KEYS_INIT_BUTTON_LOW(UI_ENCODER_CLICK); // push button, connects gnd to pin
+  UI_KEYS_INIT_BUTTON_LOW(UI_RESET_PIN); // Kill pin
+}
+void ui_check_keys(int &action) {
+ UI_KEYS_CLICKENCODER_LOW_REV(UI_ENCODER_A,UI_ENCODER_B); // click encoder on pins 47 and 45. Phase is connected with gnd for signals.
+ UI_KEYS_BUTTON_LOW(UI_ENCODER_CLICK,UI_ACTION_OK); // push button, connects gnd to pin
+ UI_KEYS_BUTTON_LOW(UI_RESET_PIN,UI_ACTION_RESET);
+}
+inline void ui_check_slow_encoder() {}
+void ui_check_slow_keys(int &action) {}
+#endif
+#endif // Controller 5
+
 
 
 #if FEATURE_CONTROLLER>0

@@ -1050,6 +1050,7 @@ The following settings override uiconfig.h!
 2 = Smartcontroller from reprapdiscount on a RAMPS or RUMBA board
 3 = Adafruit RGB controller
 4 = Foltyn 3DMaster with display attached
+5 = Fabster3d Ultipanel
 */
 #define FEATURE_CONTROLLER 0
 
